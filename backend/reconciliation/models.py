@@ -64,7 +64,7 @@ class SystemARecord(models.Model):
 
 
 class SystemBRecord(models.Model):
-    entry_id = models.CharField(max_length=50)
+    entry_id = models.CharField(max_length=50, unique=True)
     raw_record_ref = models.CharField(max_length=100)
     normalized_record_ref = models.CharField(max_length=100)
     location = models.ForeignKey(
