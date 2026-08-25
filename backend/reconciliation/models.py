@@ -17,6 +17,10 @@ class Location (models.Model):
     )
     name = models.CharField(max_length=25)
 
+    raw_data = models.JSONField(default=dict)
+    import_errors = models.JSONField(default=list)
+
+
     def __str__(self):
         return self.location_id
 
@@ -51,6 +55,10 @@ class SystemARecord(models.Model):
     )
     state = models.CharField(max_length=50, null=True, blank=True)
 
+    raw_data = models.JSONField(default=dict)
+    import_errors = models.JSONField(default=list)
+
+
     def __str__(self):
         return self.record_id
 
@@ -72,6 +80,9 @@ class SystemBRecord(models.Model):
         blank=True,
     )
     label = models.CharField(max_length=100, null=True, blank=True)
+
+    raw_data = models.JSONField(default=dict)
+    import_errors = models.JSONField(default=list)
 
     def __str__(self):
         return self.entry_id
