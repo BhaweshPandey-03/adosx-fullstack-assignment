@@ -3,6 +3,7 @@ from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from django.db import transaction
+from reconciliation.services.normalizer import normalize_record_ref
 
 from reconciliation.models import (
     Location,
@@ -175,11 +176,18 @@ def import_system_b(file_path):
                 )
 
             record_ref = row["record_ref"].strip()
+            normalized_record_ref = normalize_record_ref(record_ref)
 
+            if normalized_record_ref is None:
+                errors.append(
+                    f"Unrecognized record_ref: {record_ref}"
+                )
+
+            
             SystemBRecord.objects.update_or_create(
                 entry_id=row["entry_id"].strip(),
                 raw_record_ref=record_ref,
-                normalized_record_ref=record_ref,
+                normalized_record_ref=normalized_record_ref,
                 location=location,
                 recorded_on=recorded_on,
                 value=value,
